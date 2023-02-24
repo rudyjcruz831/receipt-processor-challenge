@@ -29,7 +29,7 @@ func NewHandler(c *Config) {
 	c.R.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:8081", "*"},
 		AllowMethods: []string{"POST", "GET"},
-		AllowHeaders: []string{"Content-Type", "user_id", "user"},
+		AllowHeaders: []string{"Content-Type"},
 	}))
 	// Create an account group
 	g := c.R.Group(c.BaseURL)
