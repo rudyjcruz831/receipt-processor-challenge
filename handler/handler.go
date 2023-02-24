@@ -9,15 +9,11 @@ import (
 )
 
 type Handler struct {
-	// UserService  model.UserService
-	// TokenService model.TokenService
 	MaxBodyBytes int64
 }
 
 type Config struct {
-	R *gin.Engine
-	// UserService     model.UserService
-	// TokenService    model.TokenService
+	R               *gin.Engine
 	BaseURL         string
 	TimeoutDuration time.Duration
 	MaxBodyBytes    int64
@@ -26,8 +22,6 @@ type Config struct {
 func NewHandler(c *Config) {
 	// Create a handler (which will later have injected services)
 	h := &Handler{
-		// UserService:  c.UserService,
-		// TokenService: c.TokenService,
 		MaxBodyBytes: c.MaxBodyBytes,
 	}
 
@@ -49,16 +43,13 @@ func NewHandler(c *Config) {
 
 	g.GET("/", h.Home)
 	g.POST("/receipt/process", h.ProcessReceipt)
-	g.GET("receipt/:id/points", h.Points)
+	g.GET("/receipt/:id/points", h.Points)
 
 }
 
 func (h *Handler) Home(c *gin.Context) {
 	// time.Sleep(6 * time.Second)
+	// fmt.Println(dataSet["ajdfka"])
+	// fmt.Println(maputil.MyMap)
 	c.JSON(http.StatusOK, map[string]string{"Its working": "kind of"})
-}
-
-func (h *Handler) Points(c *gin.Context) {
-	// time.Sleep(6 * time.Second)
-	c.JSON(http.StatusOK, map[string]string{"Points": "processed"})
 }

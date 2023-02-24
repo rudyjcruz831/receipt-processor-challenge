@@ -26,11 +26,6 @@ func inject() (*gin.Engine, error) {
 	/*
 	 * service layer
 	 */
-	// userService := services.NewUserService(&services.USConfig{
-	// 	UserRepository:  userRepository,
-	// 	ImageRepository: imageRepository,
-	// 	DocsRepository:  DocsRepository,
-	// })
 
 	// initialize gin.Engine
 	router := gin.Default()

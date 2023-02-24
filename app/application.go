@@ -9,8 +9,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/rudyjcruz831/receipt-processor-challenge/model"
 )
 
 // StartApplication is the entry point of the application
@@ -19,11 +17,11 @@ func StartApplication() {
 	log.Println("Starting server...")
 
 	// store the list of receipts in memory
-	var receipts []model.Receipt
+	// var receipts []model.Receipt
 
 	// I would initialize database connection here handler := handlers.NewHandler(db)
 	// injection other services
-	router, err := inject(receipts)
+	router, err := inject()
 
 	if err != nil {
 		log.Fatalf("Failure to inject data sources: %v\n", err)

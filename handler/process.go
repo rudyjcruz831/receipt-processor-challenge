@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model"
+	"github.com/rudyjcruz831/receipt-processor-challenge/util/maputil"
 )
 
 type processReceiptReq struct {
@@ -51,6 +52,8 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 			Price:            req.ItemReqs[i].Price,
 		})
 	}
+
+	maputil.MyMap[uid.String()] = receipt
 
 	fmt.Println("receipt: ", receipt)
 	for i := range receipt.Items {
