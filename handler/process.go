@@ -3,11 +3,11 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model"
-	"github.com/rudyjcruz831/receipt-processor-challenge/util/maputil"
 )
 
 type processReceiptReq struct {
@@ -32,8 +32,6 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 		return
 	}
 
-	// fmt.Println("req: ", req)
-
 	// inject data from req into receipt
 	uid, _ := uuid.NewRandom()
 
@@ -46,19 +44,18 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 	}
 
 	for i := range req.ItemReqs {
+		// trim whitespace from short description
+		trimShortDesc := strings.Trim(req.ItemReqs[i].ShortDescription, " ")
+		// Add item to receipt
 		receipt.Items = append(receipt.Items, model.Item{
 			ItemID:           uid.String(),
-			ShortDescription: req.ItemReqs[i].ShortDescription,
+			ShortDescription: trimShortDesc,
 			Price:            req.ItemReqs[i].Price,
 		})
 	}
 
-	maputil.MyMap[uid.String()] = receipt
+	ctx := c.Request.Context()
+	id := h.ReceiptService.ProcessReceipt(ctx, receipt)
 
-	fmt.Println("receipt: ", receipt)
-	for i := range receipt.Items {
-		fmt.Println("receipt items: ", receipt.Items[i])
-	}
-
-	c.JSON(http.StatusOK, map[string]string{"id": uid.String()})
+	c.JSON(http.StatusOK, map[string]string{"id": id})
 }

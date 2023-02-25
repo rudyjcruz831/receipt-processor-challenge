@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/rudyjcruz831/receipt-processor-challenge/handler"
+	"github.com/rudyjcruz831/receipt-processor-challenge/services"
 )
 
 // will initialize a handler starting from data sources
@@ -27,6 +28,8 @@ func inject() (*gin.Engine, error) {
 	 * service layer
 	 */
 
+	receiptService := services.NewReceiptService()
+
 	// initialize gin.Engine
 	router := gin.Default()
 
@@ -35,15 +38,16 @@ func inject() (*gin.Engine, error) {
 
 	//
 	handlerTimeout := os.Getenv("HANDLER_TIMEOUT")
-	fmt.Println(handlerTimeout)
+	// fmt.Println(handlerTimeout)
 	ht, err := strconv.ParseInt(handlerTimeout, 0, 64)
-	fmt.Println(ht)
+	// fmt.Println(ht)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse HANDLER_TIMEOUT as int: %w", err)
 	}
 
 	handler.NewHandler(&handler.Config{
 		R:               router,
+		ReceiptService:  receiptService,
 		BaseURL:         baseURL,
 		TimeoutDuration: time.Duration(time.Duration(ht) * time.Second),
 		MaxBodyBytes:    1024 * 1024 * 1024,
