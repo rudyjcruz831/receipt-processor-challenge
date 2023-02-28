@@ -10,7 +10,7 @@ type Receipt struct {
 }
 
 type Item struct {
-	ItemID           string `json:"item_id"`
+	// ItemID           string `json:"item_id"`
 	ShortDescription string `json:"short_description"`
 	Price            string `json:"price"`
 }

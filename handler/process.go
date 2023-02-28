@@ -48,7 +48,6 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 		trimShortDesc := strings.Trim(req.ItemReqs[i].ShortDescription, " ")
 		// Add item to receipt
 		receipt.Items = append(receipt.Items, model.Item{
-			ItemID:           uid.String(),
 			ShortDescription: trimShortDesc,
 			Price:            req.ItemReqs[i].Price,
 		})

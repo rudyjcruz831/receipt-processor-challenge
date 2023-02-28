@@ -8,80 +8,89 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	"github.com/rudyjcruz831/receipt-processor-challenge/model"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
-func TestProcessRececipt(t *testing.T) {
+func TestProcessReceipt(t *testing.T) {
 	// set gin to test mode
 	gin.SetMode(gin.TestMode)
 	// setup mock services, gin engine/router, handler layer
 	// and make a request to the router
 	mockReceiptsService := new(mocks.MockReceiptService)
-
 	router := gin.Default()
-
 	NewHandler(&Config{
 		R:              router,
 		ReceiptService: mockReceiptsService,
 	})
+	// Create a fixed UUID for the test
+	testUUID := uuid.MustParse("00000000-0000-0000-0000-000000000001")
 
-	t.Run("Good request data", func(t *testing.T) {
-		// a response recorder for getting written http response
-		rr := httptest.NewRecorder()
+	// Test case 1: Successful request
+	t.Run("Successful request", func(t *testing.T) {
 
-		// create a request body with valid fields
-		reqBody, err := json.Marshal(gin.H{
-			"retailer":     "Walmart",
-			"purchaseDate": "2020-01-01",
-			"purchaseTime": "14:33",
-			"items": []gin.H{
+		mockReceipt := &model.Receipt{
+			ReceiptID:    testUUID.String(),
+			Retailer:     "Walmart",
+			PurchaseDate: "2020-01-01",
+			PurchaseTime: "14:33",
+			Items: []model.Item{
 				{
-					"shortDescription": "eggs",
-					"price":            "5.00",
+					ShortDescription: "eggs",
+					Price:            "5.00",
 				},
 				{
-					"shortDescription": "milk",
-					"price":            "3.00",
+					ShortDescription: "milk",
+					Price:            "3.00",
 				},
 			},
-			"total": "8.00",
-		})
+			Total: "8.00",
+		}
 
-		mockReceiptsService.On("ProcessReceipt", mock.AnythingOfType("*context.emptyCtx"), mock.AnythingOfType("model.Receipt")).Return("1")
+		// Create a request body with valid fields
+		reqBody, err := json.Marshal(processReceiptReq{
+			Retailer:     "Walmart",
+			PurchaseDate: "2020-01-01",
+			PurchaseTime: "14:33",
+			ItemReqs: []itemReq{
+				{
+					ShortDescription: "eggs",
+					Price:            "5.00",
+				},
+				{
+					ShortDescription: "milk",
+					Price:            "3.00",
+				},
+			},
+			Total: "8.00",
+		})
 		assert.NoError(t, err)
 
+		// Set up mock receipt service method
+		mockReceiptsService.On("ProcessReceipt", mock.Anything, mockReceipt).Return(testUUID.String(), nil)
+
+		// Create request
 		request, err := http.NewRequest(http.MethodPost, "/receipt/process", bytes.NewBuffer(reqBody))
 		assert.NoError(t, err)
-
 		request.Header.Set("Content-Type", "application/json")
+
+		// Perform request
+		rr := httptest.NewRecorder()
 		router.ServeHTTP(rr, request)
 
+		// Check response
 		assert.Equal(t, http.StatusOK, rr.Code)
-		mockReceiptsService.AssertCalled(t, "ProcessReceipt")
+
+		var respData map[string]string
+		err = json.Unmarshal(rr.Body.Bytes(), &respData)
+		assert.NoError(t, err)
+		assert.Equal(t, "123", respData["id"])
+		// log.Println(respData["id"])
+
+		// Check that the ProcessReceipt method was called with the correct arguments
+		mockReceiptsService.AssertCalled(t, "ProcessReceipt", mock.Anything, mockReceipt)
 	})
-
 }
-
-// {
-// 	"retailer": "M&M Corner Market",
-// 	"purchaseDate": "2022-03-20",
-// 	"purchaseTime": "14:33",
-// 	"items": [
-// 	  {
-// 		"shortDescription": "Gatorade",
-// 		"price": "2.25"
-// 	  },{
-// 		"shortDescription": "Gatorade",
-// 		"price": "2.25"
-// 	  },{
-// 		"shortDescription": "Gatorade",
-// 		"price": "2.25"
-// 	  },{
-// 		"shortDescription": "Gatorade",
-// 		"price": "2.25"
-// 	  }
-// 	],
-// 	"total": "9.00"
-//   }
