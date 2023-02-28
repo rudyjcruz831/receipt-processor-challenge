@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode"
 
-	
+	"github.com/google/uuid"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model"
 	"github.com/rudyjcruz831/receipt-processor-challenge/util/errors"
 	"github.com/rudyjcruz831/receipt-processor-challenge/util/maputil"
@@ -39,10 +39,13 @@ func (r *receiptService) GetReceipts(ctx context.Context) ([]*model.Receipt, *er
 // ProcessReceipt processes the receipt
 func (r *receiptService) ProcessReceipt(ctx context.Context, re model.Receipt) string {
 
+	// Generate a unique ID for the receipt
+	uid, _ := uuid.NewRandom()
+	re.ReceiptID = uid.String()
 	// Add receipt to map local storage
-	maputil.MyMap[re.ReceiptID] = re
+	maputil.MyMap[uid.String()] = re
 
-	return re.ReceiptID
+	return uid.String()
 }
 
 // Calcuating the total points for receipt

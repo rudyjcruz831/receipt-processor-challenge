@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model"
+	"github.com/rudyjcruz831/receipt-processor-challenge/util/maputil"
 )
 
 type processReceiptReq struct {
@@ -33,10 +33,10 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 	}
 
 	// inject data from req into receipt
-	uid, _ := uuid.NewRandom()
+	// uid, _ := uuid.NewRandom()
 
 	receipt := model.Receipt{
-		ReceiptID:    uid.String(),
+		// ReceiptID:    uid.String(),
 		Retailer:     req.Retailer,
 		PurchaseDate: req.PurchaseDate,
 		PurchaseTime: req.PurchaseTime,
@@ -56,5 +56,9 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 	ctx := c.Request.Context()
 	id := h.ReceiptService.ProcessReceipt(ctx, receipt)
 
+	// fmt.Println("id: ", id)
+	fmt.Println("receipt: ", receipt)
+
+	fmt.Println("map: ", maputil.MyMap)
 	c.JSON(http.StatusOK, map[string]string{"id": id})
 }

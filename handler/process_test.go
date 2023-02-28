@@ -32,8 +32,7 @@ func TestProcessReceipt(t *testing.T) {
 	// Test case 1: Successful request
 	t.Run("Successful request", func(t *testing.T) {
 
-		mockReceipt := &model.Receipt{
-			ReceiptID:    testUUID.String(),
+		mockReceipt := model.Receipt{
 			Retailer:     "Walmart",
 			PurchaseDate: "2020-01-01",
 			PurchaseTime: "14:33",
@@ -87,8 +86,7 @@ func TestProcessReceipt(t *testing.T) {
 		var respData map[string]string
 		err = json.Unmarshal(rr.Body.Bytes(), &respData)
 		assert.NoError(t, err)
-		assert.Equal(t, "123", respData["id"])
-		// log.Println(respData["id"])
+		assert.Equal(t, testUUID.String(), respData["id"])
 
 		// Check that the ProcessReceipt method was called with the correct arguments
 		mockReceiptsService.AssertCalled(t, "ProcessReceipt", mock.Anything, mockReceipt)
