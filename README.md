@@ -2,10 +2,10 @@
 
 ## API Documentation
 
-#### Process Receipt
+### Process Receipt
     'POST /receipt/process'
 
-#### Request
+### Request
 The request body should be a JSON object with the following properties:
 
 | Property | Type | Required | Description |
@@ -18,7 +18,7 @@ The request body should be a JSON object with the following properties:
 
 An Example rqeuest body is below:
 ``` json 
-        {
+{
   "retailer": "Walmart",
   "purchaseDate": "2022-03-20",
   "purchaseTime": "14:33",
@@ -41,7 +41,7 @@ An Example rqeuest body is below:
 }
 ```
 
-#### Response
+### Response
 The response body will be a JSON object with the following properties:
 
 | Property | Type | Description |
@@ -55,12 +55,12 @@ An Example response body is below:
 }
 ```
 
-#### Erorrs 
+### Erorrs 
 
 | Status Code | Description |
 | ----------- | ----------- |
 | 400 | The request body is invalid. |
-| 404 | The receipt with the given id was not found. |
+| 415 | JSON body required |
 
 An Example error response body is below:
 ``` json 
@@ -80,16 +80,23 @@ An Example error response body is below:
     ]
 }
 ```
+``` json 
+{
+    "message": "/fetch/receipt/process only accepts Content-Type application/json",
+    "status": 415,
+    "error": "UNSUPPORTED_MEDIA_TYPE"
+}
+```
 
-#### Get Points
+### Get Points
     'GET /receipt/:id/points'
 
 This API endpoint returns the number of points earned for the receipt with the given id.
 
-#### Request
+### Request
 The 'id' parameter in the endpoint path is the unique identifier of the receipt.
 
-#### Response
+### Response
 The response body will be a JSON object with the following properties:
 
 | Property | Type | Description |
@@ -103,7 +110,7 @@ An Example response body is below:
 }
 ```
 
-#### Errors 
+### Errors 
 
 | Status Code | Description |
 | ----------- | ----------- |
@@ -118,7 +125,7 @@ An Example error response body is below:
     }
 ```
 
-#### Unit Tests
+### Unit Tests
 Unit tests have been included for the handler and service layers. You can run them by executing the following command in your terminal:
 
     go test ./handler
