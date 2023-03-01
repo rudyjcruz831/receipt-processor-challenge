@@ -8,11 +8,13 @@
 #### Request
 The request body should be a JSON object with the following properties:
 
-
-| Endpoint | Method | Request Body | Response Body | Status Codes |
-| -------- | ------ | ------------ | ------------- | ------------ |
-| /receipt/process | POST | ```{ "retailer": "Walmart", "purchaseDate": "2022-03-20", "purchaseTime": "14:33", "items": [{ "shortDescription": "Gatorade", "price": "2.25" },{ "shortDescription": "Gatorade", "price": "2.25" },{ "shortDescription": "Gatorade", "price": "2.25" },{ "shortDescription": "Gatorade", "price": "2.25" }], "total": "9.00" }``` | ```{ "id": "02ce65ff-1964-4f9f-9404-1fb04abebd5e" }``` | 200, 400 |
-| /receipt/:id/points | GET | N/A | ```{ "points": 102 }``` | 200, 404 |
+| Property | Type | Required | Description |
+| -------- | ---- | -------- | ----------- |
+| retailer | string | Yes | The name of the retailer. |
+| purchaseDate | string | Yes | The date of the purchase in ISO 8601 (yyyy-mm-dd) |
+| purchaseTime | string | Yes | The time of the purchase in 24-hour format |
+| items | array | Yes | An array of items purchased. |
+| total | string | Yes | The total amount of the purchase USD |
 
 An Example rqeuest body is below:
 ``` json 
@@ -117,7 +119,7 @@ An Example error response body is below:
 ```
 
 #### Unit Tests
-Unit tests have been included for the handler and servide layers. You can run them by executing the following command in your terminal:
+Unit tests have been included for the handler and service layers. You can run them by executing the following command in your terminal:
 
     go test ./handler
     go test ./services 
