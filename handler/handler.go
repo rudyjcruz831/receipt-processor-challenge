@@ -31,19 +31,12 @@ func NewHandler(c *Config) {
 
 	// router for cors to be able to access from react
 	c.R.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:8081", "*"},
+		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"POST", "GET"},
 		AllowHeaders: []string{"Content-Type"},
 	}))
 	// Create an account group
 	g := c.R.Group(c.BaseURL)
-
-	// to test api
-	// if gin.Mode() != gin.TestMode {
-
-	// } else {
-
-	// }
 
 	g.GET("/", h.Home)
 	g.GET("/receipts", h.GetReceipts)

@@ -1,5 +1,6 @@
 package model
 
+// Receipt struct
 type Receipt struct {
 	ReceiptID    string `json:"receipt_id"`
 	Retailer     string `json:"retailer"`
@@ -9,6 +10,7 @@ type Receipt struct {
 	Total        string `json:"total"`
 }
 
+// Item struct
 type Item struct {
 	// ItemID           string `json:"item_id"`
 	ShortDescription string `json:"short_description"`

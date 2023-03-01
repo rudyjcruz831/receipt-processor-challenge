@@ -6,6 +6,7 @@ import (
 	"github.com/rudyjcruz831/receipt-processor-challenge/util/errors"
 )
 
+// ReceiptService interface
 type ReceiptService interface {
 	// GetReceiptID returns the ReceiptID field value
 	GetReceipts(ctx context.Context) ([]*Receipt, *errors.FetchError)
