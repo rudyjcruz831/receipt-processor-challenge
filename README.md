@@ -1,5 +1,10 @@
 # recipt-processor-challenge
 
+## ENVIROMENT VARIABLES
+API_PORT=50052
+BASE_URL=fetch
+
+
 ## Running the application locally
 1. Clone the repository that contains the Go application to your local machine.
 2. If the application has any dependencies, you need to install them by running the following command in the terminal:
@@ -27,7 +32,7 @@ Replace "executable-file-name" with the name of the file that was created in the
 ## API Documentation
 
 ### Process Receipt
-    'POST /receipt/process'
+    'POST fetch/receipt/process'
 
 ### Request
 The request body should be a JSON object with the following properties:
@@ -113,7 +118,7 @@ An Example error response body is below:
 ```
 
 ### Get Points
-    'GET /receipt/:id/points'
+    'GET fetch/receipt/:id/points'
 
 This API endpoint returns the number of points earned for the receipt with the given id.
 
