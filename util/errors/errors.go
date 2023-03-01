@@ -52,12 +52,14 @@ func NewInternalServerError(message string) *FetchError {
 
 func NewNotFound(name, value string) *FetchError {
 	return &FetchError{
-		Message: fmt.Sprintf("resource: %v with value: %v not found", name, value),
+		Message: fmt.Sprintf("No receipt found for that id: %s", value),
 		Status:  http.StatusNotFound,
 		Error:   string(NotFound),
 	}
 }
 
+// Question : Why return a pointer to the FetchError ?
+// answer : pass struct for smaller footprint by passing pointer
 func NewUnsupportedMediaType(message string) *FetchError {
 	return &FetchError{
 		Message: message,

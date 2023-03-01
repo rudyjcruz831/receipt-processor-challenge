@@ -1,5 +1,4 @@
 // maputil.go
-
 package maputil
 
 import "log"
@@ -10,4 +9,9 @@ func init() {
 
 	log.Println("maputil init() called...")
 	MyMap = make(map[string]interface{}) // initialize the map
+}
+
+func Add(key string, value interface{}) {
+
+	MyMap[key] = value
 }

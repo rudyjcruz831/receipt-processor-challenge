@@ -31,7 +31,7 @@ func (m *MockReceiptService) GetReceipts(ctx context.Context) ([]*model.Receipt,
 }
 
 // ProcessReceipt is a mock of ReceiptService.ProcessReceipt
-func (m *MockReceiptService) ProcessReceipt(ctx context.Context, re model.Receipt) string {
+func (m *MockReceiptService) ProcessReceipt(ctx context.Context, re model.Receipt) (string, *errors.FetchError) {
 	ret := m.Called(ctx, re)
 
 	var r0 string
@@ -39,7 +39,12 @@ func (m *MockReceiptService) ProcessReceipt(ctx context.Context, re model.Receip
 		r0 = ret.Get(0).(string)
 	}
 
-	return r0
+	var r1 *errors.FetchError
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(*errors.FetchError)
+	}
+
+	return r0, r1
 }
 
 // Points is a mock of ReceiptService.Points

@@ -23,11 +23,9 @@ func bindData(c *gin.Context, req interface{}) bool {
 		log.Println("Failed content type is not application/json")
 		msg := fmt.Sprintf("%s only accepts Content-Type application/json", c.FullPath())
 
-		err := errors.NewUnsupportedMediaType(msg)
+		fetchErr := errors.NewUnsupportedMediaType(msg)
 
-		c.JSON(err.Status, gin.H{
-			"error": err,
-		})
+		c.JSON(fetchErr.Status, fetchErr)
 		return false
 	}
 
@@ -57,7 +55,7 @@ func bindData(c *gin.Context, req interface{}) bool {
 			})
 			return false
 		}
-
+		// fmt.Println("req length: ", len(req.([]byte)))
 		// later we'll add code for validating max body size here!
 
 		// if we aren't able to properly extract validation errors,

@@ -7,13 +7,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rudyjcruz831/receipt-processor-challenge/model"
-	"github.com/rudyjcruz831/receipt-processor-challenge/util/maputil"
 )
 
 type processReceiptReq struct {
-	Retailer     string    `json:"retailer"`
-	PurchaseDate string    `json:"purchaseDate"`
-	PurchaseTime string    `json:"purchaseTime"`
+	Retailer     string    `json:"retailer" binding:"required"`
+	PurchaseDate string    `json:"purchaseDate" binding:"required"`
+	PurchaseTime string    `json:"purchaseTime" binding:"required"`
 	ItemReqs     []itemReq `json:"items"`
 	Total        string    `json:"total"`
 }
@@ -54,11 +53,11 @@ func (h *Handler) ProcessReceipt(c *gin.Context) {
 	}
 
 	ctx := c.Request.Context()
-	id := h.ReceiptService.ProcessReceipt(ctx, receipt)
+	id, fetchErr := h.ReceiptService.ProcessReceipt(ctx, receipt)
+	if fetchErr != nil {
+		c.JSON(fetchErr.Status, fetchErr)
+		return
+	}
 
-	// fmt.Println("id: ", id)
-	fmt.Println("receipt: ", receipt)
-
-	fmt.Println("map: ", maputil.MyMap)
 	c.JSON(http.StatusOK, map[string]string{"id": id})
 }

@@ -37,15 +37,21 @@ func (r *receiptService) GetReceipts(ctx context.Context) ([]*model.Receipt, *er
 }
 
 // ProcessReceipt processes the receipt
-func (r *receiptService) ProcessReceipt(ctx context.Context, re model.Receipt) string {
+func (r *receiptService) ProcessReceipt(ctx context.Context, re model.Receipt) (string, *errors.FetchError) {
 
 	// Generate a unique ID for the receipt
-	uid, _ := uuid.NewRandom()
+	uid, err := uuid.NewRandom()
+	if err != nil {
+		// handle error
+		fetchErr := errors.NewInternalServerError("error processing receipt")
+		return "", fetchErr
+
+	}
 	re.ReceiptID = uid.String()
 	// Add receipt to map local storage
 	maputil.MyMap[uid.String()] = re
 
-	return uid.String()
+	return uid.String(), nil
 }
 
 // Calcuating the total points for receipt

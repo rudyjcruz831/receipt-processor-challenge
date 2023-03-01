@@ -2,14 +2,13 @@ package handler
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
+// Points returns the points for a receipt
+// Calls the ReceiptService.Points method to get the points
 func (h *Handler) Points(c *gin.Context) {
-	// time.Sleep(6 * time.Second)
-
 	// get id from url
 	id := c.Param("id")
 	ctx := c.Request.Context()
@@ -20,5 +19,5 @@ func (h *Handler) Points(c *gin.Context) {
 		return
 	}
 	// return points
-	c.JSON(http.StatusOK, map[string]string{"Points": strconv.Itoa(points)})
+	c.JSON(http.StatusOK, map[string]int{"points": points})
 }
