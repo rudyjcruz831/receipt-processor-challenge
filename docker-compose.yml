@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  receipt-services:
+    container_name: receipt-services
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 50052:50052
+    env_file:
+      - .env
+    networks:
+      mesh:
+        aliases:
+          - receipt-services
+
+networks:
+  mesh: {}
+# volumes:
+  

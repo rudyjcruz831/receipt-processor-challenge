@@ -1,5 +1,29 @@
 # recipt-processor-challenge
 
+## Running the application locally
+1. Clone the repository: Clone the repository that contains the Go application to your local machine.
+2. Install dependencies: If the application has any dependencies, you need to install them by running the following command in the terminal:
+  go mod download
+This will download and install all the dependencies required to run the application.
+3. Build the application: Build the application by running the following command in the terminal:
+  go build
+This will compile the Go code and create an executable file.
+4. Run the application: Run the application by executing the executable file created in the previous step:
+  ./<executable-file-name>
+Replace <executable-file-name> with the name of the file that was created in the previous step.
+5. Access the application: Once the application is running, you can access it by navigating to http://localhost:<port> in your web browser, where <port> is the port number on which the application is running.
+
+## Running the application with Docker Compose
+1. Clone the repository: Clone the repository that contains the Go application, Dockerfile, and docker-compose files to your local machine 
+2. Make sure you have Docker and Docker Compose installed on your machine.
+3. Clone the repository to your local machine.
+4. Open a terminal and navigate to the root of the repository.
+5. Run the following command to start the application:
+          make up
+6. Once the application is running, you can access the API at 'http://localhost:50052'
+7. To stop the application, run the following command:
+          make down
+
 ## API Documentation
 
 ### Process Receipt
@@ -19,7 +43,7 @@ The request body should be a JSON object with the following properties:
 An Example rqeuest body is below:
 ``` json 
 {
-  "retailer": "Walmart",
+  "retailer": "M&M Corner Market",
   "purchaseDate": "2022-03-20",
   "purchaseTime": "14:33",
   "items": [
@@ -106,7 +130,7 @@ The response body will be a JSON object with the following properties:
 An Example response body is below:
 ``` json 
 {
-  "points": 102
+  "points": 109
 }
 ```
 
