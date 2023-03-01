@@ -1,17 +1,17 @@
 # recipt-processor-challenge
 
 ## Running the application locally
-1. Clone the repository: Clone the repository that contains the Go application to your local machine.
-2. Install dependencies: If the application has any dependencies, you need to install them by running the following command in the terminal:
-  go mod download
+1. Clone the repository that contains the Go application to your local machine.
+2. If the application has any dependencies, you need to install them by running the following command in the terminal:
+    go mod download
 This will download and install all the dependencies required to run the application.
-3. Build the application: Build the application by running the following command in the terminal:
-  go build
+3. Build the application by running the following command in the terminal:
+    go build
 This will compile the Go code and create an executable file.
-4. Run the application: Run the application by executing the executable file created in the previous step:
-  ./<executable-file-name>
-Replace <executable-file-name> with the name of the file that was created in the previous step.
-5. Access the application: Once the application is running, you can access it by navigating to http://localhost:<port> in your web browser, where <port> is the port number on which the application is running.
+4. Run the application by executing the executable file created in the previous step:
+  ./"executable-file-name"
+Replace "executable-file-name" with the name of the file that was created in the previous step.
+5. Access the application: Once the application is running, you can access it by navigating to http://localhost:50052<port> in your web browser, where <port> is the port number on which the application is running.
 
 ## Running the application with Docker Compose
 1. Clone the repository: Clone the repository that contains the Go application, Dockerfile, and docker-compose files to your local machine 
