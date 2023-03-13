@@ -40,8 +40,8 @@ func NewHandler(c *Config) {
 
 	g.GET("/", h.Home)
 	g.GET("/receipts", h.GetReceipts)
-	g.POST("/receipt/process", h.ProcessReceipt)
-	g.GET("/receipt/:id/points", h.Points)
+	g.POST("/receipts/process", h.ProcessReceipt)
+	g.GET("/receipts/:id/points", h.Points)
 
 }
 
