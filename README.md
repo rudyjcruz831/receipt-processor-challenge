@@ -2,7 +2,11 @@
 
 ## ENVIROMENT VARIABLES
 API_PORT=50052
+
 BASE_URL=fetch
+
+HANDLER_TIMEOUT=300
+
 
 
 ## Running the application locally
